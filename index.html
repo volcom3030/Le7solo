@@ -834,8 +834,7 @@ function askCard(){
 
 function botGiveCardToRequester(){
   const giverHand = players[giverIndex];
-
-  if (giverHand.length === 0) {
+  if (!giverHand || giverHand.length === 0) {
     currentPlayer = (requesterIndex + 1) % totalPlayers;
     prepareTurn();
     return;
@@ -843,7 +842,6 @@ function botGiveCardToRequester(){
 
   const idx = chooseCardToGive(giverHand);
   const card = giverHand.splice(idx, 1)[0];
-
   players[requesterIndex].push(card);
   sortHand(players[giverIndex]);
   sortHand(players[requesterIndex]);
