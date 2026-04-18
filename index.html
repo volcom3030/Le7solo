@@ -834,19 +834,25 @@ function askCard(){
 
 function botGiveCardToRequester(){
   const giverHand = players[giverIndex];
-  if (giverHand.length === 0) return;
+
+  if (giverHand.length === 0) {
+    currentPlayer = (requesterIndex + 1) % totalPlayers;
+    prepareTurn();
+    return;
+  }
+
   const idx = chooseCardToGive(giverHand);
   const card = giverHand.splice(idx, 1)[0];
+
   players[requesterIndex].push(card);
   sortHand(players[giverIndex]);
   sortHand(players[requesterIndex]);
+
   if (checkWinner()) return;
+
   currentPlayer = (requesterIndex + 1) % totalPlayers;
-  if (isHumanMulti()) {
-    prepareTurn();
-  } else {
-    renderVisibleTurn();
-  }
+  prepareTurn();
+}
 }
 
 function renderGiveCards(){
